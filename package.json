@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.0.14",
+    "morgan": "^1.10.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "quiz-app",
+  "version": "1.0.0",
+  "description": "It will be a quiz app. Users should be able to login and take quiz. ",
+  "main": "server.js",
+  "keywords": [
+    "quiz",
+    "web",
+    "developement",
+    "html",
+    "css",
+    "javascript",
+    "node.js",
+    "react.js",
+    "next.js",
+    "vue.js",
+    "nuxt.js",
+    "express.js",
+    "bootstrap"
+  ],
+  "author": "Prabhat Kumar",
+  "license": "ISC"
+}
