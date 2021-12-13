@@ -1,0 +1,15 @@
+<% layout('layouts/boilerplate') -%>
+
+<h1>All Questions</h1>
+
+<% for( let index = 0; index < questions.length; index++ ) { %>
+    <article>
+        <div>
+            <%= questions[index].question %> 
+        </div>
+        <form action="questions/delete" method="DELETE">
+            <input type="hidden" value="<%= questions[index]._id %>">
+            <button>Delete</button>
+        </form>
+    </article>
+<% } %>
