@@ -7,8 +7,7 @@
         <div>
             <%= questions[index].question %> 
         </div>
-        <form action="questions/delete" method="DELETE">
-            <input type="hidden" value="<%= questions[index]._id %>">
+        <form action="questions/<%= questions[index]._id %>?_method=DELETE" method="POST">
             <button>Delete</button>
         </form>
     </article>

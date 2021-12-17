@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const ejs = require('ejs');
 const engine = require('ejs-mate');
 const Question = require('./models/questions');
+const methodOverride = require('method-override');
 
 // setting up ejs
 app.set('views', __dirname + '/views');
@@ -17,6 +18,8 @@ app.engine('ejs', engine);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('tiny'));
+app.use(methodOverride('_method'));
+
 
 // connect to mongodb
 try{
@@ -29,6 +32,17 @@ try{
     console.log('Mongoose Connection Error! Database failed to connect!');
     console.log(err);
 }
+
+app.delete('/questions/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const question = await Question.findByIdAndDelete(id);
+        console.log(question);
+        res.status(200).redirect('/questions');
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 app.get('/questions', async (req, res) => {
     const questions = await Question.find({});
