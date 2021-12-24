@@ -2,23 +2,23 @@
 
 <form action="/result" method="POST">
 <% for( let index = 0; index < questions.length; index++ ) { %>
-    <article>
+    <article class="question">
         <div><b>Question.</b> <%= questions[index].question %>  </div>
         <div class="form-check">
-            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[0] %>">
-            <b>1.</b> <%= questions[index].options[0] %>  
+            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[0] %>" id="<%= questions[index]._id %>">
+            <label for="<%= questions[index]._id %>"><b>1.</b> <%= questions[index].options[0] %></label>  
         </div>
         <div class="form-check">
-            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[1] %>">
-            <b>2.</b> <%= questions[index].options[1] %>  
+            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[1] %>" id="<%= questions[index]._id %>">
+            <label for="<%= questions[index]._id %>"><b>2.</b> <%= questions[index].options[1] %></label>  
         </div>
         <div class="form-check">
-            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[2] %>">
-            <b>3.</b> <%= questions[index].options[2] %>  
+            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[2] %>" id="<%= questions[index]._id %>">
+            <label for="<%= questions[index]._id %>"><b>3.</b> <%= questions[index].options[2] %></label>  
         </div>
         <div class="form-check">
-            <input type="radio" name="<%= index %>" class="form-check-input" value="<%= questions[index].options[3] %>">
-            <b>4.</b> <%= questions[index].options[3] %>  
+            <input type="radio" name="<%= index %>" id="<%= questions[index]._id %>" class="form-check-input" value="<%= questions[index].options[3] %>">
+            <label for="<%= questions[index]._id %>"><b>4.</b> <%= questions[index].options[3] %></label>  
         </div>
     </article>
     <hr>
@@ -26,3 +26,18 @@
 <button class="btn btn-outline-dark">Submit</button>
 </form>
 <a href="/">Back</a>
+
+<script>
+    try {
+
+        const res = fetch('/result', {
+            method: 'POST',
+            body: JSON.stringify({
+                url: location.pathname
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (err) {
+        console.log(err);
+    }
+</script>
