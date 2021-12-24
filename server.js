@@ -67,8 +67,10 @@ app.get('/upload', (req, res) => {
     res.render('home/upload');
 });
 
-app.get('/quiz', (req, res) => {
-    res.render('home/quiz');
+app.get('/quiz', async (req, res) => {
+    const questions = await Question.find({});
+    console.log(questions);
+    res.render('home/quiz', { questions });
 });
 
 app.get('/', (req, res) => {

@@ -1,1 +1,15 @@
+<% layout('layouts/boilerplate') -%>
+
+<% for( let index = 0; index < questions.length; index++ ) { %>
+    <article>
+        <div><b>Question.</b> <%= questions[index].question %>  </div>
+        <div><b>1.</b> <%= questions[index].options[0] %>  </div>
+        <div><b>2.</b> <%= questions[index].options[1] %>  </div>
+        <div><b>3.</b> <%= questions[index].options[2] %>  </div>
+        <div><b>4.</b> <%= questions[index].options[3] %>  </div>
+        <div><b>Correct Answer.</b> <%= questions[index].answer %>  </div>
+    </article>
+    <hr>
+<% } %>
+
 <a href="/">Back</a>
