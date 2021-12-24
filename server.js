@@ -33,6 +33,11 @@ try{
     console.log(err);
 }
 
+app.post('/result', (req, res) => {
+    console.log(req.body);
+    res.redirect('/');
+});
+
 app.delete('/questions/:id', async (req, res) => {
     try {
         const { id } = req.params;

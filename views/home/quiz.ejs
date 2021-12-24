@@ -1,15 +1,28 @@
 <% layout('layouts/boilerplate') -%>
 
+<form action="/result" method="POST">
 <% for( let index = 0; index < questions.length; index++ ) { %>
     <article>
         <div><b>Question.</b> <%= questions[index].question %>  </div>
-        <div><b>1.</b> <%= questions[index].options[0] %>  </div>
-        <div><b>2.</b> <%= questions[index].options[1] %>  </div>
-        <div><b>3.</b> <%= questions[index].options[2] %>  </div>
-        <div><b>4.</b> <%= questions[index].options[3] %>  </div>
-        <div><b>Correct Answer.</b> <%= questions[index].answer %>  </div>
+        <div class="form-check">
+            <input type="radio" name="<%= index %>" class="form-check-input">
+            <b>1.</b> <%= questions[index].options[0] %>  
+        </div>
+        <div class="form-check">
+            <input type="radio" name="<%= index %>" class="form-check-input">
+            <b>2.</b> <%= questions[index].options[1] %>  
+        </div>
+        <div class="form-check">
+            <input type="radio" name="<%= index %>" class="form-check-input">
+            <b>3.</b> <%= questions[index].options[2] %>  
+        </div>
+        <div class="form-check">
+            <input type="radio" name="<%= index %>" class="form-check-input">
+            <b>4.</b> <%= questions[index].options[3] %>  
+        </div>
     </article>
     <hr>
 <% } %>
-
+<button class="btn btn-outline-dark">Submit</button>
+</form>
 <a href="/">Back</a>
