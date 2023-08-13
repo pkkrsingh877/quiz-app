@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const path = require('path');
 require('dotenv').config();
 
 // Middleware to encode URL-encoded data in POST requests
@@ -20,7 +21,7 @@ databaseSetup();
 
 
 app.get('/', (req, res) => {
-    res.send('Server is running');
+    res.send(`htmlContent`);
 });
 
 app.listen(8000, () => {
