@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Quiz from './components/Quiz';
 import QuizPlay from './components/QuizPlay';
 import QuizResult from './components/QuizResult';
+import QuizCreate from './components/QuizCreate';
 import Signup from './components/Signup';
 import UserProfile from './components/UserProfile';
 import UserProfileUpdate from './components/UserProfileUpdate';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/quizplay" element={<QuizPlay />} />
             <Route path="/quizresult" element={<QuizResult />} />
+            <Route path="/quizcreate" element={<QuizCreate />} />
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/userprofileupdate" element={<UserProfileUpdate />} />
             <Route path="/userdatavisualization" element={<UserDataVisualization />} />
