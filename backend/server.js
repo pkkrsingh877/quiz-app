@@ -3,11 +3,21 @@ const app = express();
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-try {
-    mongoose.connect(process.env.MONGO_URI);
-} catch (error) {
-    console.log(error);
+// Middleware to encode URL-encoded data in POST requests
+app.use(express.urlencoded({ extended: true }));
+
+const databaseSetup = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('DB Connection Successful!');
+    } catch (error) {
+        console.log('DB Connection Unsuccessful!');
+        console.log(error);
+    }
 }
+
+databaseSetup();
+
 
 app.get('/', (req, res) => {
     res.send('Server is running');
