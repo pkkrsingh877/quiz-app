@@ -15,7 +15,7 @@ const QuizCreate = () => {
         const quiz = { title, category, questions };
         try {
             setIsPending(true);
-            const response = await fetch('localhost:8000/quizcreate',{
+            const response = await fetch('http://localhost:8000/quiz',{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(quiz)
@@ -28,7 +28,7 @@ const QuizCreate = () => {
         } catch (error) {
             setIsPending(false);
             setError(error);
-            navigate('/error');
+            navigate('/notfound');
         } 
     }
 
