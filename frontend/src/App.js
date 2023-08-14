@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import QuestionCreate from './components/QuestionCreate';
 import Quiz from './components/Quiz';
 import QuizPlay from './components/QuizPlay';
 import QuizResult from './components/QuizResult';
@@ -21,13 +22,13 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={< Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/quizplay" element={<QuizPlay />} />
-            <Route path="/quizresult" element={<QuizResult />} />
-            <Route path="/quizcreate" element={<QuizCreate />} />
-            <Route path="/userprofile" element={<UserProfile />} />
-            <Route path="/userprofileupdate" element={<UserProfileUpdate />} />
-            <Route path="/userdatavisualization" element={<UserDataVisualization />} />
+            <Route path="/question/create" element={<QuestionCreate />} />
+            <Route path="/quiz/play" element={<QuizPlay />} />
+            <Route path="/quiz/result" element={<QuizResult />} />
+            <Route path="/quiz/create" element={<QuizCreate />} />
+            <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/user/profileupdate" element={<UserProfileUpdate />} />
+            <Route path="/user/datavisualization" element={<UserDataVisualization />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
