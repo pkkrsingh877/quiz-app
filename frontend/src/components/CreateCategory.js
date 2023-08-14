@@ -1,39 +1,40 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCategory = () => {
 
     const [name, setName] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http:localhost:8000/category/create',{
+            const response = await fetch('http://localhost:8000/category', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name })
             });
-            if(!response.ok){
+            if (!response.ok) {
                 throw new Error('Data could not be saved!');
             }
-            Navigate('/category');
+            navigate('/category');
         } catch (error) {
-            Navigate('/notfound');
-        } 
+            navigate('/notfound');
+        }
     }
-    return ( 
+    return (
         <section className="flex-container">
             <h2>Create Category</h2>
             <form className="create" onSubmit={handleSubmit}>
                 <label htmlFor="text">Category Name: </label>
-                <input type="text" name="name" id="name" 
-                value={name}
-                onChange = {(e) => setName(e.target.value)}
-                required />
-                <button type="button">Create</button>
+                <input type="text" name="name" id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required />
+                <button type="submit">Create</button>
             </form>
         </section>
-     );
+    );
 }
- 
+
 export default CreateCategory;
