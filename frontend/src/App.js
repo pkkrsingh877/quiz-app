@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import Question from './components/Question';
 import QuestionCreate from './components/QuestionCreate';
 import Quiz from './components/Quiz';
 import QuizPlay from './components/QuizPlay';
@@ -12,6 +13,8 @@ import UserProfile from './components/UserProfile';
 import UserProfileUpdate from './components/UserProfileUpdate';
 import UserDataVisualization from './components/UserDataVisualization';
 import NotFound from './components/NotFound';
+import Category from './components/Category';
+import CreateCategory from './components/CreateCategory';
 
 function App() {
   return (
@@ -22,7 +25,11 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={< Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/category" element={<Category />} /> 
+            <Route path="/category/create" element={<CreateCategory/>} />
+            <Route path="/question" element={<Question />} />
             <Route path="/question/create" element={<QuestionCreate />} />
+            <Route path="/quiz" element={<Quiz />} />
             <Route path="/quiz/play" element={<QuizPlay />} />
             <Route path="/quiz/result" element={<QuizResult />} />
             <Route path="/quiz/create" element={<QuizCreate />} />
