@@ -10,7 +10,7 @@ const Category = () => {
     return ( 
         <section className="categories">
             {categories.map((category) => {
-                <div className="category">{category.name}</div>
+                return <div className="category">{category.name}</div>
             })}
         </section>
      );

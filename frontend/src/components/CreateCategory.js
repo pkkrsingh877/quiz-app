@@ -22,7 +22,8 @@ const CreateCategory = () => {
         } 
     }
     return ( 
-        <section className="create-category">
+        <section className="flex-container">
+            <h2>Create Category</h2>
             <form className="create" onSubmit={handleSubmit}>
                 <label htmlFor="text">Category Name: </label>
                 <input type="text" name="name" id="name" 
