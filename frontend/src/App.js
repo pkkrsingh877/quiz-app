@@ -14,7 +14,8 @@ import UserProfileUpdate from './components/UserProfileUpdate';
 import UserDataVisualization from './components/UserDataVisualization';
 import NotFound from './components/NotFound';
 import Category from './components/Category';
-import CreateCategory from './components/CreateCategory';
+import CategoryCreate from './components/CategoryCreate';
+import CategoryEdit from './components/CategoryEdit';
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
             <Route path="/login" element={< Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/category" element={<Category />} /> 
-            <Route path="/category/create" element={<CreateCategory/>} />
+            <Route path="/category/create" element={<CategoryCreate />} />
+            <Route path="/category/edit/:id" element={<CategoryEdit />} />
             <Route path="/question" element={<Question />} />
             <Route path="/question/create" element={<QuestionCreate />} />
             <Route path="/quiz" element={<Quiz />} />

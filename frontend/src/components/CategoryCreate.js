@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const CreateCategory = () => {
+const CategoryCreate = () => {
 
     const [name, setName] = useState('');
     const navigate = useNavigate();
@@ -37,4 +37,4 @@ const CreateCategory = () => {
     );
 }
 
-export default CreateCategory;
+export default CategoryCreate;

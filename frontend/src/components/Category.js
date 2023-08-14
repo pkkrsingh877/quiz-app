@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useFetch from './useFetch';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Category = () => {
 
@@ -36,6 +36,7 @@ const Category = () => {
                 {categories.map((category) => (
                     <section className="category" key={category._id}>
                         <div>{category.name}</div>
+                        <Link to={`/category/edit/${category._id}`}>Edit</Link>
                         <button type="button" onClick={() => handleDelete(category._id)}>Delete</button>
                     </section>
                 )
