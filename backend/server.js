@@ -7,6 +7,14 @@ require('dotenv').config();
 // Middleware to encode URL-encoded data in POST requests
 app.use(express.urlencoded({ extended: true }));
 
+// Import route files
+const quizRoutes = require('./routes/quizRoutes');
+const questionRoutes = require('./routes/questionRoutes');
+
+// Mount routers
+app.use('/quiz', quizRoutes);
+app.use('/question', questionRoutes);
+
 const databaseSetup = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);

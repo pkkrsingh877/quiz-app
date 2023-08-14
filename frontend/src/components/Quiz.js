@@ -1,3 +1,5 @@
+import useState from 'react';
+
 const Quiz = () => {
     return ( 
         <div className="cat">
