@@ -7,7 +7,7 @@ const Category = () => {
     const { data, pending, error } = useFetch('http://localhost:8000/category');
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
-
+    console.log(categories)
     // Set the categories state after data is received
     useEffect(() => {
         if (data) {
@@ -21,8 +21,9 @@ const Category = () => {
                 method: 'DELETE'
             });
             if (!response.ok) {
-                throw new Error('Data could not be deeted!');
+                throw new Error('Data could not be deleted!');
             }
+            setCategories(categories.filter(category => category._id !== id));
             navigate('/category');
         } catch (error) {
             navigate('/notfound');
@@ -34,7 +35,7 @@ const Category = () => {
             <h2>Categories</h2>
             <article className="categories">
                 {categories.map((category) => (
-                    <section className="category" key={category._id}>
+                    category._id && <section className="category" key={category._id}>
                         <div>{category.name}</div>
                         <Link to={`/category/edit/${category._id}`}>Edit</Link>
                         <button type="button" onClick={() => handleDelete(category._id)}>Delete</button>
