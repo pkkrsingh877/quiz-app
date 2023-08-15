@@ -1,32 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetch from './useFetch';
 
 const CategoryEdit = () => {
 
-    const [name, setName] = useState('');
     const { id } = useParams();
-    const { data, pending, error } = useFetch(`http://localhost:8000/category/${id}`);
-    // setName(data.name);
-    console.log(data)
+    const { data, pending, error } = useFetch(`http://localhost:8000/category/edit/${id}`);
+    const [name, setName] = useState(data ? data.name : '');
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/category', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:8000/category/${id}`, {
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: name })
             });
             if (!response.ok) {
-                throw new Error('Data could not be saved!');
+                throw new Error('Data could not be updated!');
             }
             navigate('/category');
         } catch (error) {
             navigate('/notfound');
         }
     }
+
+    // Use useEffect to update the name state when data changes
+    useEffect(() => {
+        if (data) {
+            setName(data.name);
+        }
+    }, [data]);
+
     return (
         <section className="flex-container">
             <h2>Edit Category</h2>
