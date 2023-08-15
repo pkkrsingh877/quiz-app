@@ -33,6 +33,7 @@ const Category = () => {
     return (
         <section className="flex-container">
             <h2>Categories</h2>
+            <Link to='/category/create'>Create New Category</Link>
             <article className="categories">
                 {categories.map((category) => (
                     category._id && <section className="category" key={category._id}>
