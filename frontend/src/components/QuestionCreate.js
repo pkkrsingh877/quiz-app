@@ -58,6 +58,7 @@ const QuestionCreate = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const questionData = {
             text,
             options,
@@ -65,6 +66,7 @@ const QuestionCreate = () => {
             selectedCategory,
             explanations
         };
+        
         try {
             const response = await fetch('http://localhost:8000/question', {
                 method: 'POST',

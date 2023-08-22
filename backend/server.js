@@ -23,11 +23,15 @@ app.use(cors({
 const quizRoutes = require('./routes/quizRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const optionRoutes = require('./routes/optionRoutes');
+const explantionRoutes = require('./routes/explanationRoutes');
 
 // Mount routers
 app.use('/quiz', quizRoutes);
 app.use('/question', questionRoutes);
 app.use('/category', categoryRoutes);
+app.use('/option', optionRoutes);
+app.use('/explanation', explantionRoutes);
 
 const databaseSetup = async () => {
     try {
