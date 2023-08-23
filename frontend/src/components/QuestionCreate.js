@@ -31,7 +31,7 @@ const QuestionCreate = () => {
 
 
     const handleCategoryChange = (selectedOption) => {
-        setSelectedCategory(selectedOption);
+        setSelectedCategory(selectedOption._id);
     };
 
     const handleOptionChange = (index, value) => {
@@ -66,7 +66,7 @@ const QuestionCreate = () => {
             selectedCategory,
             explanations
         };
-        
+
         try {
             const response = await fetch('http://localhost:8000/question', {
                 method: 'POST',
