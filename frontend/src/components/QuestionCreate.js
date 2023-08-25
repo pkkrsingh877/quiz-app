@@ -76,7 +76,7 @@ const QuestionCreate = () => {
             if (!response.ok) {
                 throw new Error('Data could not be saved!');
             }
-            navigate('/category');
+            navigate('/question');
         } catch (error) {
             navigate('/notfound');
         }
