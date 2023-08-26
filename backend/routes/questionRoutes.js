@@ -4,6 +4,30 @@ const Question = require('../models/question');
 const Option = require('../models/option');
 const Explanation = require('../models/explanation');
 
+router.post('/edit/:id', async (req, res) => {
+   try {
+        const { id } = req.body;
+        console.log(id)
+        // question = await Question.findById(id).populate('options').populate('correctOption');
+        // console.log(question);
+        res.status(200).json('');
+   } catch (error) {
+        console.log(error);
+        res.status(500).end();
+   } 
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const question = await Question.findById(id).populate('options').populate('correctOption').populate('category');
+        console.log(question);
+        res.status(200).json(question);
+    } catch (error) {
+        res.json(error);
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         const { text, options, correctOption, selectedCategory, explanations } = req.body;
@@ -42,41 +66,9 @@ router.post('/', async (req, res) => {
     }
 });
 
-// router.post('/', async (req, res) => {
-//     try {
-//         // correctOption has the index of correctOption coming in array of options
-//         // selectedCategory has id of selected category coming from form
-//         // option is array of options from form
-//         // explanation is an array of explanations
-//         const { text, options , correctOption, selectedCategory, explanations } = req.body;
-//         console.log(req.body)
-//         //create options
-//         let optionIds = [];
-//         for (const option of options) {
-//             const createdOption = await Option.create({ text: option });
-//             optionIds.push(createdOption._id);
-//             console.log(createdOption)
-//         }
-//         //create explanations
-//         let i = 0;
-//         for (const explanation of explanations) {
-//             const createdExplanation = await Explanation.create({ text: explanation, optionId: optionIds[i] })
-//             console.log(createdExplanation)
-//         }
-
-//         //create question
-//         const question = await Question.create({ text, options: optionIds, correctOption: optionIds[correctOption], category: selectedCategory });
-//         console.log(question, "This actually was a question");
-//         res.status(200).end();
-//     } catch (error) {
-//         res.json(error);
-//     }
-// });
-
 router.get('/', async (req, res) => {
     try {
         const questions = await Question.find({});
-        console.log(questions)
         res.status(200).json(questions);
     } catch (error) {
         res.json(error);

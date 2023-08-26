@@ -16,6 +16,7 @@ import NotFound from './components/NotFound';
 import Category from './components/Category';
 import CategoryCreate from './components/CategoryCreate';
 import CategoryEdit from './components/CategoryEdit';
+import QuestionUpdate from './components/QuestionUpdate';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/category/edit/:id" element={<CategoryEdit />} />
             <Route path="/question" element={<Question />} />
             <Route path="/question/create" element={<QuestionCreate />} />
+            <Route path="/question/edit/:id" element={<QuestionUpdate />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/quiz/play" element={<QuizPlay />} />
             <Route path="/quiz/result" element={<QuizResult />} />

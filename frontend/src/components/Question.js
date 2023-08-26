@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useFetch from './useFetch';
+import { Link } from 'react-router-dom';
 
 const Question = () => {
     const [questions, setQuestions] = useState([]);
@@ -21,6 +22,7 @@ const Question = () => {
                     questions && questions.map(question => (
                         <article className="question">
                             {question.text}
+                            <Link to={`/question/edit/${question._id}`}>Edit</Link>
                         </article>
                     ))
                 }
