@@ -4,17 +4,45 @@ const Question = require('../models/question');
 const Option = require('../models/option');
 const Explanation = require('../models/explanation');
 
-router.post('/edit/:id', async (req, res) => {
-   try {
-        const { id } = req.body;
-        console.log(id)
-        // question = await Question.findById(id).populate('options').populate('correctOption');
-        // console.log(question);
-        res.status(200).json('');
-   } catch (error) {
-        console.log(error);
-        res.status(500).end();
-   } 
+router.patch('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { text, options, correctOption, selectedCategory, explanations } = req.body;
+
+        // Create an array to store promises
+        const promises = [];
+
+        // Create options
+        const optionIds = [];
+        for (const option of options) {
+            const createdOption = await Option.create({ text: option });
+            optionIds.push(createdOption._id);
+        }
+        promises.push(...optionIds);
+
+        // Create explanations
+        let i = 0;
+        for (let explanation of explanations) {
+            const createdExplanation = await Explanation.create({ text: explanation, optionId: optionIds[i] });
+            promises.push(createdExplanation);
+        }
+
+        // Wait for all promises to be resolved
+        await Promise.all(promises);
+
+        // Create question
+        const question = await Question.findByIdAndUpdate(id, {
+            text,
+            options: optionIds,
+            correctOption: optionIds[correctOption],
+            category: selectedCategory
+        });
+
+        console.log("Updated", question);
+        res.status(200).end();
+    } catch (error) {
+        res.status(500).json(error);
+    }
 });
 
 router.get('/:id', async (req, res) => {
@@ -36,17 +64,19 @@ router.post('/', async (req, res) => {
         const promises = [];
 
         // Create options
-        const optionIds = options.map(async (option) => {
-            const createdOption = await Option.create({ option });
-            return createdOption._id;
-        });
+        const optionIds = [];
+        for (const option of options) {
+            const createdOption = await Option.create({ text: option });
+            optionIds.push(createdOption._id);
+        }
         promises.push(...optionIds);
 
         // Create explanations
-        explanations.forEach(async (explanation, i) => {
-            const createdExplanation = Explanation.create({ explanation, optionId: optionIds[i] });
+        let i = 0;
+        for (let explanation of explanations) {
+            const createdExplanation = await Explanation.create({ text: explanation, optionId: optionIds[i] });
             promises.push(createdExplanation);
-        });
+        }
 
         // Wait for all promises to be resolved
         await Promise.all(promises);

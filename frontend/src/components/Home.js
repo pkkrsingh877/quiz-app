@@ -6,6 +6,7 @@ const Home = () => {
         <div className="container">
             <Link to="/login" className="container-link">Go to Login page</Link>
             <Link to="/signup" className="container-link">Go to Signup page</Link>
+            <Link to="/question" className="container-link">Questions</Link>
             <Link to="/question/create" className="container-link">Create Questions</Link>
             <Link to="/quiz" className="container-link">Go to quiz page</Link>
             <Link to="/quiz/play" className="container-link">Go to quizplay page</Link>

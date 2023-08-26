@@ -20,7 +20,7 @@ const Question = () => {
             <section className="questions">
                 {
                     questions && questions.map(question => (
-                        <article className="question">
+                        <article className="question" key={question._id}>
                             {question.text}
                             <Link to={`/question/edit/${question._id}`}>Edit</Link>
                         </article>
