@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import useFetch from './useFetch';
@@ -24,6 +24,7 @@ const QuestionUpdate = () => {
             console.log(error);
         }
     }, [data])
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -44,7 +45,7 @@ const QuestionUpdate = () => {
             }
         }
         fetchData();
-    }); // Include data and id in the dependency array
+    }, [question, id]); // Include data and id in the dependency array
 
     const handleCategoryChange = (selectedOption) => {
         setSelectedCategory(selectedOption._id);
