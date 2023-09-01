@@ -3,7 +3,32 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import useFetch from './useFetch';
 
+const initialState = { count: 0 }; // Initial state
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'SET_QUESTION':
+            return { ...state, question: action.payload };
+        case 'SET_TEXT':
+            return { ...state, text: action.payload };
+        case 'SET_OPTIONS':
+            return { ...state, options: action.payload };
+        case 'SET_EXPLANATIONS':
+            return { ...state, explanations: action.payload };
+        case 'SET_CORRECT_OPTION':
+            return { ...state, correctOption: action.payload };
+        case 'SET_CATEGORIES':
+            return { ...state, categories: action.payload };
+        case 'SET_SELECTED_CATEGORY':
+            return { ...state, selectedCategory: action.payload };
+        default:
+            return state;
+    }
+};
+
 const QuestionUpdate = () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { count } = state;
     const { id } = useParams();
     const [question, setQuestion] = useState('');
     const [text, setText] = useState('');
