@@ -3,7 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import useFetch from './useFetch';
 
-const initialState = { count: 0 }; // Initial state
+const initialState = {
+    question: '',
+    text: '',
+    options: ['', ''],
+    explanations: ['', ''],
+    correctOption: '',
+    categories: [],
+    selectedCategory: null,
+  };
 
 const reducer = (state, action) => {
     switch (action.type) {
