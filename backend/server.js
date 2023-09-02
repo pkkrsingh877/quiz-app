@@ -25,6 +25,7 @@ const questionRoutes = require('./routes/questionRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const optionRoutes = require('./routes/optionRoutes');
 const explantionRoutes = require('./routes/explanationRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Mount routers
 app.use('/quiz', quizRoutes);
@@ -32,6 +33,7 @@ app.use('/question', questionRoutes);
 app.use('/category', categoryRoutes);
 app.use('/option', optionRoutes);
 app.use('/explanation', explantionRoutes);
+app.use('/user', userRoutes);
 
 const databaseSetup = async () => {
     try {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
 
@@ -6,9 +7,23 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSignup = (e) => {
+    const navigate = useNavigate();
+
+    const handleSignup = async (e) => {
         e.preventDefault();
-        // the post request via fetch api goes here
+        try {
+            const response = await fetch('http://localhost:8000/user/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+            if (!response.ok) {
+                throw new Error('Data could not be saved!');
+            }
+            navigate('/user/profile');
+        } catch (error) {
+            navigate('/notfound');
+        }
     };
 
     return (

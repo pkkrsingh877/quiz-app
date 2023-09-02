@@ -1,13 +1,28 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const navigate = useNavigate();
+    
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // the post request via fetch api goes here
+        try {
+            const response = await fetch('http://localhost:8000/user/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            if (!response.ok) {
+                throw new Error('Data could not be saved!');
+            }
+            navigate('/user/profile');
+        } catch (error) {
+            navigate('/notfound');
+        }
     };
 
     return (
