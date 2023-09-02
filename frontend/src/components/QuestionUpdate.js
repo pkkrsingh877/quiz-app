@@ -11,7 +11,7 @@ const initialState = {
     correctOption: '',
     categories: [],
     selectedCategory: null,
-  };
+};
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -36,121 +36,126 @@ const reducer = (state, action) => {
 
 const QuestionUpdate = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { count } = state;
+    const { question, text, options, explanations, correctOption, categories, selectedCategory } = state;
     const { id } = useParams();
-    const [question, setQuestion] = useState('');
-    const [text, setText] = useState('');
-    const [options, setOptions] = useState(['', '']);
-    const [explanations, setExplanations] = useState(['', '']);
-    const [correctOption, setCorrectOption] = useState('');
-    const [categories, setCategories] = useState([]); // store data after pulling from db
-    const [selectedCategory, setSelectedCategory] = useState(null); // select category from db data to set category in form
     const navigate = useNavigate();
-
+  
     const { data, pending, error } = useFetch('http://localhost:8000/category');
-    // this useEffect hook fires if data is populated
+  
+    // Use useEffect to populate the state when data is available
     useEffect(() => {
+      if (!pending && !error) {
+        dispatch({ type: 'SET_CATEGORIES', payload: data });
+      }
+    }, [data, pending, error]);
+  
+    // Use another useEffect to fetch question data and set state
+    useEffect(() => {
+      const fetchData = async () => {
         try {
-            setCategories(data);
-            console.log(data);
+          const response = await fetch(`http://localhost:8000/question/${id}`);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const questionData = await response.json();
+  
+          dispatch({ type: 'SET_QUESTION', payload: questionData });
+          dispatch({ type: 'SET_TEXT', payload: questionData.text });
+          dispatch({ type: 'SET_SELECTED_CATEGORY', payload: questionData.category.text });
+  
+          questionData.options.forEach((option, index) => {
+            dispatch({ type: 'SET_OPTIONS', payload: option.text });
+            dispatch({ type: 'SET_EXPLANATIONS', payload: option.text }); // Assuming explanations match options
+          });
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
-    }, [data])
+      };
+  
+      fetchData();
+    }, [id]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/question/${id}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                console.log(data)
-                setQuestion(data);
-                setText(question.text || '');
-                setSelectedCategory(question.category.text || '');
-                question.options.map(option => (
-                    setSelectedCategory(option.text)
-                ));
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchData();
-    }, [question, id]); // Include data and id in the dependency array
-
+    const handleTextChange = (newTextValue) => {
+      dispatch({ type: 'SET_TEXT', payload: newTextValue });
+    };
+  
     const handleCategoryChange = (selectedOption) => {
-        setSelectedCategory(selectedOption._id);
+      dispatch({ type: 'SET_SELECTED_CATEGORY', payload: selectedOption._id });
     };
-
+  
     const handleOptionChange = (index, value) => {
-        const newOptions = [...options];
-        newOptions[index] = value;
-        setOptions(newOptions);
+      const newOptions = [...options];
+      newOptions[index] = value;
+      dispatch({ type: 'SET_OPTIONS', payload: newOptions });
     };
-
+  
     const handleAddOption = () => {
-        setOptions([...options, '']);
-    }
-
+      const newOptions = [...options, ''];
+      dispatch({ type: 'SET_OPTIONS', payload: newOptions });
+    };
+  
     const handleRemoveOption = () => {
-        if (options.length > 2) {
-            setOptions(options.slice(0, -1));
-        }
+      if (options.length > 2) {
+        const newOptions = options.slice(0, -1);
+        dispatch({ type: 'SET_OPTIONS', payload: newOptions });
+      }
     };
-
+  
     const handleExplanationChange = (index, value) => {
-        const newExplanations = [...explanations];
-        newExplanations[index] = value;
-        setExplanations(newExplanations);
+      const newExplanations = [...explanations];
+      newExplanations[index] = value;
+      dispatch({ type: 'SET_EXPLANATIONS', payload: newExplanations });
     };
 
+    const handleCorrectOption = (newValue) => {
+      dispatch({ type: 'SET_CORRECT_OPTION', payload: newValue });
+    };
+    
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const questionData = {
-            text,
-            options,
-            correctOption,
-            selectedCategory,
-            explanations
-        };
-
-        try {
-            const response = await fetch(`http://localhost:8000/question/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(questionData)
-            });
-            if (!response.ok) {
-                throw new Error('Data could not be saved!');
-            }
-            navigate('/question');
-        } catch (error) {
-            navigate('/notfound');
+      e.preventDefault();
+  
+      const questionData = {
+        text,
+        options,
+        correctOption,
+        selectedCategory,
+        explanations,
+      };
+  
+      try {
+        const response = await fetch(`http://localhost:8000/question/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(questionData),
+        });
+        if (!response.ok) {
+          throw new Error('Data could not be saved!');
         }
+        navigate('/question');
+      } catch (error) {
+        navigate('/notfound');
+      }
     };
-
+  
     return (
-        <div className="flex-container">
-            <h2>Update Question</h2>
-            <form className="create" onSubmit={handleSubmit}>
+      <div className="flex-container">
+        <h2>Update Question</h2>
+        <form className="create" onSubmit={handleSubmit}>
 
                 <label>Question: </label>
-                <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+                <input type="text" value={state.text} onChange={(e) => handleTextChange(e.target.value)} />
 
                 <label>Options: </label>
                 {options.map((option, index) => (
                     <div key={index}>
                         <input
                             type="text"
-                            value={option}
+                            value={state.option}
                             placeholder={'option ' + (index + 1)}
                             onChange={(e) => handleOptionChange(index, e.target.value)}
                         />
                         <textarea
-                            value={explanations[index]}
+                            value={state.explanations[index]}
                             placeholder={`Explanation for Option ${index + 1}`}
                             onChange={(e) => handleExplanationChange(index, e.target.value)}
                         />
@@ -164,15 +169,15 @@ const QuestionUpdate = () => {
 
                 <label>Category: </label>
                 <Select
-                    options={categories}
-                    value={selectedCategory ? categories.find(category => category._id === selectedCategory._id) : ''}
+                    options={state.categories}
+                    value={selectedCategory ? state.categories.find(category => category._id === selectedCategory._id) : ''}
                     onChange={handleCategoryChange}
                     getOptionLabel={(option) => option.name}
                     getOptionValue={(option) => option._id}
                 />
 
                 <label>Correct Option: </label>
-                <select value={correctOption} onChange={(e) => setCorrectOption(e.target.value)}>
+                <select value={state.correctOption} onChange={(e) => handleCorrectOption(e.target.value)}>
                     <option value="">Select Correct Option</option>
                     {options.map((option, index) => (
                         <option key={index} value={index}>{option}</option>
@@ -180,8 +185,8 @@ const QuestionUpdate = () => {
                 </select>
                 <button type="submit">Edit</button>
             </form>
-        </div>
+      </div>
     );
-};
-
-export default QuestionUpdate;
+  };
+  
+  export default QuestionUpdate;
