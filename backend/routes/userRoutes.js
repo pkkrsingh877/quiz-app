@@ -19,7 +19,10 @@ router.post('/login', async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
+            console.log('User valiadation failed');
             return res.status(401).json({ message: 'Authentication failed' });
+        }else{
+            console.log('User valiadation successful');
         }
 
         // Generate a JWT token and send it in the response
@@ -58,3 +61,5 @@ router.post('/signup', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+module.exports = router;
