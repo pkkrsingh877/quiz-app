@@ -5,11 +5,10 @@ require('dotenv').config();
 // Generate a JWT token when a user logs in
 const generateToken = (user) => {
   const payload = {
-    userId: user._id,
-    email: user.email,
+    id: user._id
   };
 
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }); // Change the secret key and expiration as needed
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' }); // Change the secret key and expiration as needed
 };
 
 // Verify JWT tokens in your middleware or route handlers

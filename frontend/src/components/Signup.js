@@ -15,11 +15,19 @@ const Signup = () => {
             const response = await fetch('http://localhost:8000/user/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
+                body: JSON.stringify({ name, email, password }),
+                withCredentials: true, // Include cookies in the request
             });
             if (!response.ok) {
                 throw new Error('Data could not be saved!');
             }
+            // Get object where token is
+            const data = await response.json();
+            console.log(data);
+
+            // Set the JWT token as a cookie in the browser
+            document.cookie = `jwt=${data.token}; maxAge=86400`;
+
             navigate('/user/profile');
         } catch (error) {
             navigate('/notfound');
