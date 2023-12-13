@@ -1,34 +1,9 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import useFetch from './useFetch';
-
-const initialState = { count: 0 }; // Initial state
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_QUESTION':
-            return { ...state, question: action.payload };
-        case 'SET_TEXT':
-            return { ...state, text: action.payload };
-        case 'SET_OPTIONS':
-            return { ...state, options: action.payload };
-        case 'SET_EXPLANATIONS':
-            return { ...state, explanations: action.payload };
-        case 'SET_CORRECT_OPTION':
-            return { ...state, correctOption: action.payload };
-        case 'SET_CATEGORIES':
-            return { ...state, categories: action.payload };
-        case 'SET_SELECTED_CATEGORY':
-            return { ...state, selectedCategory: action.payload };
-        default:
-            return state;
-    }
-};
+import useFetch from '../hooks/useFetch';
 
 const QuestionUpdate = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const { count } = state;
     const { id } = useParams();
     const [question, setQuestion] = useState('');
     const [text, setText] = useState('');
@@ -38,17 +13,6 @@ const QuestionUpdate = () => {
     const [categories, setCategories] = useState([]); // store data after pulling from db
     const [selectedCategory, setSelectedCategory] = useState(null); // select category from db data to set category in form
     const navigate = useNavigate();
-
-    const { data, pending, error } = useFetch('http://localhost:8000/category');
-    // this useEffect hook fires if data is populated
-    useEffect(() => {
-        try {
-            setCategories(data);
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }, [data])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,17 +24,17 @@ const QuestionUpdate = () => {
                 const data = await response.json();
                 console.log(data)
                 setQuestion(data);
-                setText(question.text || '');
-                setSelectedCategory(question.category.text || '');
-                question.options.map(option => (
-                    setSelectedCategory(option.text)
-                ));
+                setText(data.text || '');  // Use data.text instead of question.text
+                setSelectedCategory(data.category._id || ''); // Update to the correct category property
+                setOptions(data.options.map(option => option.text || '')); // Update to the correct property
+                setExplanations(data.options.map(option => option.explanation || '')); // Update to the correct property
             } catch (error) {
                 console.log(error);
             }
-        }
+        };
+
         fetchData();
-    }, [question, id]); // Include data and id in the dependency array
+    }, [id]);
 
     const handleCategoryChange = (selectedOption) => {
         setSelectedCategory(selectedOption._id);
@@ -137,7 +101,7 @@ const QuestionUpdate = () => {
                     <div key={index}>
                         <input
                             type="text"
-                            value={option}
+                            value={option.text}
                             placeholder={'option ' + (index + 1)}
                             onChange={(e) => handleOptionChange(index, e.target.value)}
                         />
@@ -164,7 +128,7 @@ const QuestionUpdate = () => {
                 />
 
                 <label>Correct Option: </label>
-                <select value={correctOption} onChange={(e) => setCorrectOption(e.target.value)}>
+                <select value={correctOption.text} onChange={(e) => setCorrectOption(e.target.value)}>
                     <option value="">Select Correct Option</option>
                     {options.map((option, index) => (
                         <option key={index} value={index}>{option}</option>

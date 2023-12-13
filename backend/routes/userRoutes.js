@@ -63,7 +63,6 @@ router.post('/signup', async (req, res) => {
 
         // Generate a JWT token
         const token = generateToken(newUser);
-        console.log(token);
         // Set the JWT as a cookie
         res.cookie('jwt', token, {
             httpOnly: true,

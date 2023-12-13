@@ -27,7 +27,7 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={< Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/category" element={<Category />} /> 
+            <Route path="/category" element={<Category />} />
             <Route path="/category/create" element={<CategoryCreate />} />
             <Route path="/category/edit/:id" element={<CategoryEdit />} />
             <Route path="/question" element={<Question />} />
@@ -43,7 +43,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
-    </Router>
+      </Router>
     </div>
   );
 }

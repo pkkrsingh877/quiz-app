@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
+const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
@@ -11,16 +12,17 @@ require('dotenv').config();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(methodOverride('_method'));
 app.use(cookieParser());
-
 app.use(cors({
-    origin: 'http://localhost:3000', // Adjust this to your frontend's origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Add DELETE method
-    allowedHeaders: ['Content-Type', 'Authorization'], // Add headers you want to allow
-    credentials: true, // Allow credentials (cookies)
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 }));
 
+//import middleware functions
+const checkUser = require('../backend/middlewares/checkUser');
 
 // Import route files
 const quizRoutes = require('./routes/quizRoutes');
@@ -40,7 +42,7 @@ app.use('/user', userRoutes);
 
 const databaseSetup = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect('mongodb://localhost:27017/quizapp');
         console.log('DB Connection Successful!');
     } catch (error) {
         console.log('DB Connection Unsuccessful!');

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import useFetch from './useFetch';
+import useFetch from '../hooks/useFetch';
 
 const QuestionCreate = () => {
     const [text, setText] = useState('');

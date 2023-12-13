@@ -1,18 +1,26 @@
 import { useState, useEffect } from 'react';
-import useFetch from './useFetch';
+import useFetch from '../hooks/useFetch';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
 
     const [user, setUser] = useState();
-    const { data, pending, error } = useFetch('http://localhost:8000/user/');
 
     useEffect(() => {
-        if (data) {
-            setUser(data);
-            console.log(user);
+        // Split all cookies into an array
+        const cookiesArray = document.cookie.split(';');
+
+        // Find the "jwt" cookie
+        const jwt = cookiesArray.find(cookie => cookie.trim().startsWith('jwt='));
+
+        if (jwt) {
+            // Extract the value of the "jwt" cookie
+            const jwtToken = jwt.split('=')[1].trim();
+
+            // Now you can use jwtToken
+            console.log(jwtToken);
         }
-    }, [data, user]);
+    }, []);
 
     return (
         <div className="flex-container">
